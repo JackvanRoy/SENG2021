@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Render an invoice from XML to PDF</title>
+</head>
+<body>
+    <form action="/invoice/render/json" method="POST" enctype="multipart/form-data">
+        <input type="file" name="xmlFile">
+        <!--will prolly add a dropdown to select options to constrain them to valid ones-->
+        <label for="language">Language:</label>
+        <input type="text" name="language">
+        <label for="style">Style:</label>
+        <input type="text" name="style">
+        <button type="submit">Upload XML document</button>
+    </form>
+    <form action="/invoice/render/html" method="POST" enctype="multipart/form-data">
+        <input type="file" name="xmlFile">
+        <label for="language">Language:</label>
+        <select name="language">
+            <option value="english">English</option>
+            <option value="chinese">Chinese</option>
+            <option value="spanish">Spanish</option>
+        </select>
+        <label for="style">Style:</label>
+        <select name="style">
+            <option value="dark">Dark</option>
+            <option value="light">Light</option>
+        </select>
+        <button type="submit">Upload XML document</button>
+    </form>
+</body>
+</html>
