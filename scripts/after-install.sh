@@ -1,6 +1,11 @@
 #!/bin/bash
 
-mkdir /nodejs
-cd /nodejs
+# Clear npm cache
+npm cache clean --force
 
-sudo npm install
+# Remove node_modules directory and package-lock.json
+rm -rf node_modules
+rm package-lock.json
+
+# Reinstall dependencies
+npm install
