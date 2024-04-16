@@ -1,3 +1,3 @@
 #!/bin/bash
 cd /var/www/app
-npm start
+nohup npm start > /dev/null 2>&1 &
