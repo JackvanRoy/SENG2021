@@ -19,12 +19,12 @@ else
     exit 1
 fi
 
-# Install nodemon globally
-sudo npm install -g nodemon
+# Install nodemon and ts-node globally
+sudo npm install -g nodemon ts-node
 
-# Check if nodemon is installed successfully
-if ! command -v nodemon &> /dev/null; then
-    echo "Error: nodemon installation failed." >&2
+# Check if nodemon and ts-node are installed successfully
+if ! command -v nodemon &> /dev/null || ! command -v ts-node &> /dev/null; then
+    echo "Error: nodemon or ts-node installation failed." >&2
     exit 1
 fi
 
