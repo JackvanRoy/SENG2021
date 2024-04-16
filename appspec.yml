@@ -24,7 +24,7 @@ os: linux
 #   may cause associated deployments to fail.
 files:
   - source: /
-    destination: /opt/myapp
+    destination: /
 # For deployments to Amazon Linux, Ubuntu Server, or RHEL instances,
 #   you can specify a "permissions" 
 #   section here that describes special permissions to apply to the files 
@@ -65,7 +65,7 @@ hooks:
 # During the BeforeInstall deployment lifecycle event, run the commands 
 #   in the script specified in "location".
   BeforeInstall:
-    - location: scripts/before_install.sh
+    - location: scripts/before-install.sh
       timeout: 300
 # During the AfterInstall deployment lifecycle event, run the commands 
 #   in the script specified in "location".
