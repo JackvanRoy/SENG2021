@@ -21,6 +21,7 @@ fi
 
 # Install nodemon and ts-node globally
 sudo npm install -g nodemon ts-node
+sudo npm install
 
 # Check if nodemon and ts-node are installed successfully
 if ! command -v nodemon &> /dev/null || ! command -v ts-node &> /dev/null; then
