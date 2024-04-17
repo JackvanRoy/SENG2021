@@ -36,7 +36,7 @@ const invoiceTypeCodeMapping = {
     876: 'Partial final construction invoice',
     877: 'Final construction invoice'
 };
-export function renderHtml(invoiceData: string, language: string, style: string): Promise<void> {
+export function renderHtml(invoiceData: string, language: string, style: string): Promise<string> {
   return new Promise((resolve, reject) => {
       try {
           const jsonString = convert.xml2json(invoiceData, { compact: true, spaces: 2 });
@@ -53,29 +53,15 @@ export function renderHtml(invoiceData: string, language: string, style: string)
           processTaxTotalDataHtml(data, $, language);
 
           const htmlString = $.html().replace(/^<html><head><\/head><body>|<\/body><\/html>$/g, '');
-
-          // Write the HTML string to a file
-          fs.writeFile('invoice.html', htmlString, (err) => {
-              if (err) {
-                  console.error('Error writing HTML file:', err);
-                  reject(HTTPError(500, 'Internal server error'));
-              } else {
-                  console.log('HTML file written successfully: invoice.html');
-                  // Open the HTML file in the default web browser
-                  exec('open invoice.html', (err) => {
-                      if (err) {
-                          console.error('Error opening HTML file in browser:', err);
-                      }
-                      resolve();
-                  });
-              }
-          });
+          resolve(htmlString);
       } catch (error) {
           console.error("Error during XML parsing:", error);
           reject(HTTPError(400, 'XML file syntax is not valid'));
       }
   })
 };
+
+
 
 export function processAccountingCustomerPartyDataHtml(jsonObject: object, $: any, language: string) {
   const translations = getTranslations(language);
