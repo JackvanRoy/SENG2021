@@ -21,11 +21,10 @@ app.use(cors());
 app.use(morgan('dev'));
 
 const PORT: number = parseInt(process.env.PORT || config.port);
-const HOST: string = process.env.IP || '0.0.0.0';
 
 // Start server
-const server = app.listen(PORT, HOST, () => {
-  console.log(`⚡️ Server started on port ${PORT} at ${HOST}`);
+const server = app.listen(PORT, () => {
+  console.log(`⚡️ Server started on port ${PORT}`);
 });
 
 // Serve the public directory with index.html
