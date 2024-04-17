@@ -36,7 +36,7 @@ const invoiceTypeCodeMapping = {
     876: 'Partial final construction invoice',
     877: 'Final construction invoice'
 };
-export function renderHtml(invoiceData: string, language: string, style: string): Promise<string> {
+export function renderHtml(invoiceData: string, language: string, style: string): Promise<Buffer> {
   return new Promise((resolve, reject) => {
       try {
           const jsonString = convert.xml2json(invoiceData, { compact: true, spaces: 2 });
@@ -53,13 +53,15 @@ export function renderHtml(invoiceData: string, language: string, style: string)
           processTaxTotalDataHtml(data, $, language);
 
           const htmlString = $.html().replace(/^<html><head><\/head><body>|<\/body><\/html>$/g, '');
-          resolve(htmlString);
+          const htmlBuffer = Buffer.from(htmlString, 'utf-8');
+          resolve(htmlBuffer);
       } catch (error) {
           console.error("Error during XML parsing:", error);
-          reject(HTTPError(400, 'XML file syntax is not valid'));
+          reject(new Error('XML file syntax is not valid'));
       }
   })
 };
+
 
 
 
