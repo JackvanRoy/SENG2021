@@ -17,6 +17,10 @@ else
 fi
 
 # Install nodemon globally
+
 sudo npm install -g nodemon ts-node
 
-sudo npm install
+cd /var/www/app
+sudo chmod g+s /var/www/app
+sudo chmod o-rwx /var/www/app
+npm install
