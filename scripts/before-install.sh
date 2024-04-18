@@ -18,3 +18,5 @@ fi
 
 # Install nodemon globally
 sudo npm install -g nodemon
+
+sudo npm install
