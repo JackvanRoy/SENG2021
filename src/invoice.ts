@@ -44,7 +44,7 @@ const invoiceTypeCodeMapping = {
 //   B: 'Transferred (VAT), In Italy'
 // };
 
-export function renderPdf(invoiceData: string, language: string, style: string): Promise<Buffer> {
+/* export function renderPdf(invoiceData: string, language: string, style: string): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     try {
       // Parse XML string into JSON object
@@ -75,7 +75,7 @@ export function renderPdf(invoiceData: string, language: string, style: string):
     }
   });
 }
-
+*/
 export function renderJson(invoiceData: string, language: string, style: string): Promise<string> {
   return new Promise((resolve, reject) => {
     try {
