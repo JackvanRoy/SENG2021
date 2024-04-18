@@ -36,46 +36,32 @@ const invoiceTypeCodeMapping = {
     876: 'Partial final construction invoice',
     877: 'Final construction invoice'
 };
-export function renderHtml(invoiceData: string, language: string, style: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-      try {
-          const jsonString = convert.xml2json(invoiceData, { compact: true, spaces: 2 });
-          const data = JSON.parse(jsonString);
-          const $ = cheerio.load('<html><head></head><body style="margin: 50px;"></body></html>');
+export function renderHtml(invoiceData: string, language: string, style: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+        try {
+            const jsonString = convert.xml2json(invoiceData, { compact: true, spaces: 2 });
+            const data = JSON.parse(jsonString);
+            const $ = cheerio.load('<html><head></head><body style="margin: 50px;"></body></html>');
 
-          // Check if the style is any variation of 'dark', otherwise apply default style
-          const isDarkMode = style.toLowerCase().includes('dark');
-          $('body').css('background-color', isDarkMode ? '#222' : '#fff');
-          $('body').css('color', isDarkMode ? '#fff' : '#000');
+            // Check if the style is any variation of 'dark', otherwise apply default style
+            const isDarkMode = style.toLowerCase().includes('dark');
+            $('body').css('background-color', isDarkMode ? '#222' : '#fff');
+            $('body').css('color', isDarkMode ? '#fff' : '#000');
 
-          processAccountingCustomerPartyDataHtml(data, $, language);
-          processTopLevelDataHtml(data, $, language);
-          processTaxTotalDataHtml(data, $, language);
+            processAccountingCustomerPartyDataHtml(data, $, language);
+            processTopLevelDataHtml(data, $, language);
+            processTaxTotalDataHtml(data, $, language);
 
-          const htmlString = $.html().replace(/^<html><head><\/head><body>|<\/body><\/html>$/g, '');
-
-          // Write the HTML string to a file
-          fs.writeFile('invoice.html', htmlString, (err) => {
-              if (err) {
-                  console.error('Error writing HTML file:', err);
-                  reject(HTTPError(500, 'Internal server error'));
-              } else {
-                  console.log('HTML file written successfully: invoice.html');
-                  // Open the HTML file in the default web browser
-                  exec('open invoice.html', (err) => {
-                      if (err) {
-                          console.error('Error opening HTML file in browser:', err);
-                      }
-                      resolve();
-                  });
-              }
-          });
-      } catch (error) {
-          console.error("Error during XML parsing:", error);
-          reject(HTTPError(400, 'XML file syntax is not valid'));
-      }
-  })
+            const htmlString = $.html().replace(/^<html><head><\/head><body>|<\/body><\/html>$/g, '');
+            resolve(htmlString);
+        } catch (error) {
+            console.error("Error during XML parsing:", error);
+            reject(HTTPError(400, 'XML file syntax is not valid'));
+        }
+    })
 };
+
+
 
 export function processAccountingCustomerPartyDataHtml(jsonObject: object, $: any, language: string) {
   const translations = getTranslations(language);
