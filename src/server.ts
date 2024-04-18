@@ -79,26 +79,11 @@ app.post('/invoice/render/html', multer().single('xmlFile'), async (req: Request
   try {
     if (getData().users.some(user => user.token === undefined)) {
       throw HTTPError(403, 'Token is invalid');
-    } else if (!req.file) {
-      throw HTTPError(400, 'No file uploaded');
-      // Default to English for now
-    } else if (language && language.toLowerCase() !== 'english' 
-      && language.toLowerCase() !== 'spanish' 
-      && language.toLowerCase() !== 'mandarin' 
-      && language.toLowerCase() !== 'chinese') {
-      throw HTTPError(400, 'Unsupported language');
-      // Default to light for now
-    } else if (style && style.toLowerCase() !== 'light' && style.toLowerCase() !== 'dark') {
-      throw HTTPError(400, 'Unsupported style');
-    }
+    } 
 
     const invoiceData = req.file.buffer.toString();
     const result = await renderHtml(invoiceData, language, style);
 
-    res.contentType('application/pdf');
-    // For downloading the PDF file
-    const filename = req.file.originalname.replace(/\.[^.]*$/, '');
-    res.setHeader('content-disposition', `attachment; filename="${filename}"`);
     res.send(result);
   } catch (error) {
     res.status(error.status).json({ error: error.message });
