@@ -73,7 +73,6 @@ app.post('/invoice/render/json', multer().single('xmlFile'), async (req: Request
 
 
 app.post('/invoice/render/html', multer().single('xmlFile'), async (req: Request, res: Response) => {
-  const token = req.header('token');
   const { language, style } = req.body;
 
   try {

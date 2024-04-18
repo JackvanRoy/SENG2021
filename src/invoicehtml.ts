@@ -37,31 +37,29 @@ const invoiceTypeCodeMapping = {
     877: 'Final construction invoice'
 };
 export function renderHtml(invoiceData: string, language: string, style: string): Promise<string> {
-  return new Promise((resolve, reject) => {
-      try {
-          const jsonString = convert.xml2json(invoiceData, { compact: true, spaces: 2 });
-          const data = JSON.parse(jsonString);
-          const $ = cheerio.load('<html><head></head><body style="margin: 50px;"></body></html>');
-          
-          // Check if the style is any variation of 'dark', otherwise apply default style
-          const isDarkMode = style.toLowerCase().includes('dark');
-          $('body').css('background-color', isDarkMode ? '#222' : '#fff');
-          $('body').css('color', isDarkMode ? '#fff' : '#000');
+    return new Promise((resolve, reject) => {
+        try {
+            const jsonString = convert.xml2json(invoiceData, { compact: true, spaces: 2 });
+            const data = JSON.parse(jsonString);
+            const $ = cheerio.load('<html><head></head><body style="margin: 50px;"></body></html>');
 
-          processAccountingCustomerPartyDataHtml(data, $, language);
-          processTopLevelDataHtml(data, $, language);
-          processTaxTotalDataHtml(data, $, language);
+            // Check if the style is any variation of 'dark', otherwise apply default style
+            const isDarkMode = style.toLowerCase().includes('dark');
+            $('body').css('background-color', isDarkMode ? '#222' : '#fff');
+            $('body').css('color', isDarkMode ? '#fff' : '#000');
 
-          const htmlString = $.html().replace(/^<html><head><\/head><body>|<\/body><\/html>$/g, '');
-          const htmlBuffer = Buffer.from(htmlString, 'utf-8');
-          resolve(htmlString);
-      } catch (error) {
-          console.error("Error during XML parsing:", error);
-          reject(new Error('XML file syntax is not valid'));
-      }
-  })
+            processAccountingCustomerPartyDataHtml(data, $, language);
+            processTopLevelDataHtml(data, $, language);
+            processTaxTotalDataHtml(data, $, language);
+
+            const htmlString = $.html().replace(/^<html><head><\/head><body>|<\/body><\/html>$/g, '');
+            resolve(htmlString);
+        } catch (error) {
+            console.error("Error during XML parsing:", error);
+            reject(HTTPError(400, 'XML file syntax is not valid'));
+        }
+    })
 };
-
 
 
 
