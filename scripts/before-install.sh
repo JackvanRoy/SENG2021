@@ -17,6 +17,4 @@ else
 fi
 
 # Install nodemon globally
-sudo npm install -g nodemon
-
-sudo npm install
+sudo npm install -g nodemon ts-node
