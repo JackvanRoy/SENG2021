@@ -4,7 +4,7 @@ files:
   - source: /
     destination: /var/www/app/
 hooks:
-  AfterInstall:
+  BeforeInstall:
     - location: scripts/before-install.sh
       runas: root
       timeout: 300
